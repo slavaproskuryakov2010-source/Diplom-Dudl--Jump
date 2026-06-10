@@ -15,6 +15,12 @@ public class Platform : MonoBehaviour
                 collision.gameObject.GetComponent<Rigidbody2D>().linearVelocity = Vector2.up * forceJump;
             }
         }
+        if(collision.gameObject.name.Contains("DeadZone"))
+        {
+         float randX = Random.Range(-2, 2);
+            float randY = Random.Range(transform.position.y + 16f,transform.position.y +16.5f);
+            transform.position = new Vector3(randX, randY, 0);
+        }
     }
    
 

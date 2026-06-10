@@ -1,6 +1,8 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Profiling;
+using UnityEngine.SceneManagement;
 public class Player : MonoBehaviour
 {
   public float  speed = 5f;
@@ -21,5 +23,12 @@ public class Player : MonoBehaviour
             gameObject.GetComponent<SpriteRenderer>().flipX=true;
         if (rb.velocity.x > 0)
             gameObject.GetComponent<SpriteRenderer>().flipX = false;
+    }
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+       if(collision.gameObject.name.Contains("DeadZone"))
+        {
+            SceneManager.Game(gameObject"Game");
+        }
     }
 }
