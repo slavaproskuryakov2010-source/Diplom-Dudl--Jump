@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Profiling;
+using UnityEditor;
 using UnityEngine.SceneManagement;
 public class Player : MonoBehaviour
 {
@@ -28,7 +28,7 @@ public class Player : MonoBehaviour
     {
        if(collision.gameObject.name.Contains("DeadZone"))
         {
-            SceneManager.Game(gameObject"Game");
+            SceneManager.LoadScene("Game");
         }
     }
 }
