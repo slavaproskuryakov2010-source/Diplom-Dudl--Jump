@@ -60,4 +60,4 @@ public class CameraFollow : MonoBehaviour
         highestY = minY;
         transform.position = new Vector3(0, minY, offset.z);
     }
-}
+}  
