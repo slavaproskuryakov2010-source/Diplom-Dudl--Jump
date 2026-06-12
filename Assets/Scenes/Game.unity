@@ -414,11 +414,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c532debfd5b70ae4489a33d5243fa308, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
-  scoreText: {fileID: 0}
-  highScoreText: {fileID: 0}
+  scoreText: {fileID: 1038747438}
+  highScoreText: {fileID: 1265616183}
   gameOverPanel: {fileID: 843645497}
-  finalScoreText: {fileID: 0}
-  finalHighScoreText: {fileID: 0}
+  finalScoreText: {fileID: 907903484}
+  finalHighScoreText: {fileID: 487227912}
   player: {fileID: 340131559}
   fallDeathY: -10
 --- !u!4 &200667683
@@ -429,8 +429,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 200667681}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.37418, y: -1.61157, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 1.3741801, y: -1.61157, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -587,7 +587,7 @@ Transform:
   m_GameObject: {fileID: 340131554}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.2586299, y: -2.522225, z: 0}
+  m_LocalPosition: {x: 0.25862992, y: -2.522225, z: 0}
   m_LocalScale: {x: 0.46730387, y: 0.37131637, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1205,7 +1205,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -300.4981, y: 489.77713}
+  m_AnchoredPosition: {x: -300.4981, y: 497.14658}
   m_SizeDelta: {x: 200, y: 75.6}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1038747438
@@ -2219,12 +2219,12 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1052577041}
-  - {fileID: 1038747437}
   - {fileID: 843645500}
   - {fileID: 907903483}
   - {fileID: 487227911}
   - {fileID: 687455298}
   - {fileID: 1981527266}
+  - {fileID: 1038747437}
   - {fileID: 1265616182}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2241,8 +2241,8 @@ SceneRoots:
   - {fileID: 87316174}
   - {fileID: 2006926020}
   - {fileID: 679895334}
-  - {fileID: 340131559}
   - {fileID: 1586363023}
   - {fileID: 130612209}
   - {fileID: 1409342554}
   - {fileID: 200667683}
+  - {fileID: 340131559}

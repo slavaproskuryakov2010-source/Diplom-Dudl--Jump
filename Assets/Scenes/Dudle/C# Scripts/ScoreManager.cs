@@ -1,21 +1,23 @@
 using UnityEngine;
-using UnityEngine.UI;
+using TMPro;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
-    [Header("UI")]
-    [SerializeField] private Text scoreText;
-    [SerializeField] private Text highScoreText;
-    [SerializeField] private GameObject gameOverPanel;
-    [SerializeField] private Text finalScoreText;
-    [SerializeField] private Text finalHighScoreText;
-
-    [Header("Настройки")]
+    [Header("Игрок")]
     [SerializeField] private Transform player;
-    [SerializeField] private float fallDeathY = -10f;  // Смерть при падении ниже этой точки относительно камеры
+    [SerializeField] private float fallDeathY = -10f;
+
+    [Header("UI - Игровой экран")]
+    [SerializeField] private TextMeshProUGUI scoreText;
+    [SerializeField] private TextMeshProUGUI highScoreText;
+
+    [Header("UI - Панель Game Over")]
+    [SerializeField] private GameObject gameOverPanel;
+    [SerializeField] private TextMeshProUGUI finalScoreText;
+    [SerializeField] private TextMeshProUGUI finalHighScoreText;
 
     private int score;
     private int highScore;
@@ -34,7 +36,6 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         }
 
-        // Загружаем рекорд
         highScore = PlayerPrefs.GetInt("HighScore", 0);
     }
 
@@ -46,12 +47,16 @@ public class GameManager : MonoBehaviour
             highestY = startY;
         }
 
-        UpdateUI();
+        if (scoreText != null)
+            scoreText.gameObject.SetActive(true);
+        if (highScoreText != null)
+            highScoreText.gameObject.SetActive(true);
 
         if (gameOverPanel != null)
-        {
             gameOverPanel.SetActive(false);
-        }
+
+        UpdateUI();
+        Time.timeScale = 1f;
     }
 
     void Update()
@@ -60,7 +65,6 @@ public class GameManager : MonoBehaviour
 
         if (player != null)
         {
-            // Обновляем максимальную высоту
             if (player.position.y > highestY)
             {
                 highestY = player.position.y;
@@ -68,7 +72,6 @@ public class GameManager : MonoBehaviour
                 UpdateUI();
             }
 
-            // Проверка падения ниже камеры
             Camera cam = Camera.main;
             if (cam != null)
             {
@@ -81,23 +84,13 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void AddScore(int points)
-    {
-        score += points;
-        UpdateUI();
-    }
-
     void UpdateUI()
     {
         if (scoreText != null)
-        {
             scoreText.text = "Счёт: " + score;
-        }
 
         if (highScoreText != null)
-        {
             highScoreText.text = "Рекорд: " + highScore;
-        }
     }
 
     public void GameOver()
@@ -106,7 +99,6 @@ public class GameManager : MonoBehaviour
 
         isGameOver = true;
 
-        // Сохраняем рекорд
         if (score > highScore)
         {
             highScore = score;
@@ -114,23 +106,22 @@ public class GameManager : MonoBehaviour
             PlayerPrefs.Save();
         }
 
-        // Показываем панель
+        if (scoreText != null)
+            scoreText.gameObject.SetActive(false);
+        if (highScoreText != null)
+            highScoreText.gameObject.SetActive(false);
+
         if (gameOverPanel != null)
         {
             gameOverPanel.SetActive(true);
 
             if (finalScoreText != null)
-            {
                 finalScoreText.text = "Счёт: " + score;
-            }
 
             if (finalHighScoreText != null)
-            {
                 finalHighScoreText.text = "Рекорд: " + highScore;
-            }
         }
 
-        // Останавливаем время
         Time.timeScale = 0f;
     }
 
@@ -138,13 +129,5 @@ public class GameManager : MonoBehaviour
     {
         Time.timeScale = 1f;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-    }
-
-    public void QuitGame()
-    {
-        Time.timeScale = 1f;
-        SceneManager.LoadScene("MainMenu"); // Если есть сцена меню
-        // Или закройте игру:
-        // Application.Quit();
     }
 }
