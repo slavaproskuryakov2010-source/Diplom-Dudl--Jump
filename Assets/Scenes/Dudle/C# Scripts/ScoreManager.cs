@@ -27,78 +27,74 @@ public class GameManager : MonoBehaviour
 
     void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-
+        Instance = this;
         highScore = PlayerPrefs.GetInt("HighScore", 0);
     }
 
     void Start()
     {
+        // Проверка Player
+        if (player == null)
+        {
+            GameObject p = GameObject.FindGameObjectWithTag("Player");
+            if (p != null) player = p.transform;
+        }
+
         if (player != null)
         {
             startY = player.position.y;
             highestY = startY;
         }
 
-        if (scoreText != null)
-            scoreText.gameObject.SetActive(true);
-        if (highScoreText != null)
-            highScoreText.gameObject.SetActive(true);
-
+        // Скрываем GameOverPanel
         if (gameOverPanel != null)
+        {
             gameOverPanel.SetActive(false);
+        }
 
-        UpdateUI();
+        // Обновляем текст
+        if (scoreText != null) scoreText.text = "Счёт: 0";
+        if (highScoreText != null) highScoreText.text = "Рекорд: " + highScore;
+
         Time.timeScale = 1f;
     }
 
     void Update()
     {
         if (isGameOver) return;
+        if (player == null) return;
 
-        if (player != null)
+        // Счёт по высоте
+        if (player.position.y > highestY)
         {
-            if (player.position.y > highestY)
-            {
-                highestY = player.position.y;
-                score = Mathf.FloorToInt((highestY - startY) * 10);
-                UpdateUI();
-            }
+            highestY = player.position.y;
+            score = Mathf.FloorToInt((highestY - startY) * 10);
 
-            Camera cam = Camera.main;
-            if (cam != null)
+            if (scoreText != null)
+                scoreText.text = "Счёт: " + score;
+
+            if (highScoreText != null)
+                highScoreText.text = "Рекорд: " + highScore;
+        }
+
+        // Проверка падения
+        Camera cam = Camera.main;
+        if (cam != null)
+        {
+            float deathY = cam.transform.position.y - cam.orthographicSize + fallDeathY;
+            if (player.position.y < deathY)
             {
-                float deathY = cam.transform.position.y - cam.orthographicSize + fallDeathY;
-                if (player.position.y < deathY)
-                {
-                    GameOver();
-                }
+                GameOver();
             }
         }
-    }
-
-    void UpdateUI()
-    {
-        if (scoreText != null)
-            scoreText.text = "Счёт: " + score;
-
-        if (highScoreText != null)
-            highScoreText.text = "Рекорд: " + highScore;
     }
 
     public void GameOver()
     {
         if (isGameOver) return;
-
         isGameOver = true;
 
+        // Сохраняем рекорд
         if (score > highScore)
         {
             highScore = score;
@@ -106,20 +102,16 @@ public class GameManager : MonoBehaviour
             PlayerPrefs.Save();
         }
 
-        if (scoreText != null)
-            scoreText.gameObject.SetActive(false);
-        if (highScoreText != null)
-            highScoreText.gameObject.SetActive(false);
+        // Скрываем игровой счёт
+        if (scoreText != null) scoreText.gameObject.SetActive(false);
+        if (highScoreText != null) highScoreText.gameObject.SetActive(false);
 
+        // Показываем панель Game Over
         if (gameOverPanel != null)
         {
             gameOverPanel.SetActive(true);
-
-            if (finalScoreText != null)
-                finalScoreText.text = "Счёт: " + score;
-
-            if (finalHighScoreText != null)
-                finalHighScoreText.text = "Рекорд: " + highScore;
+            if (finalScoreText != null) finalScoreText.text = "Счёт: " + score;
+            if (finalHighScoreText != null) finalHighScoreText.text = "Рекорд: " + highScore;
         }
 
         Time.timeScale = 0f;
@@ -128,6 +120,8 @@ public class GameManager : MonoBehaviour
     public void RestartGame()
     {
         Time.timeScale = 1f;
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        
+
+SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 2);
     }
 }
